@@ -1,5 +1,10 @@
 import java.util.ArrayList;
-
+/**
+ * The Cube class represents a cube in 3D space, composed of six faces.
+ *
+ * @author Alex Yan yan517
+ * @version 1.0 (2024-10-22)
+ */
 public class Account implements AccountInterface {
 
     private String name;
@@ -7,9 +12,11 @@ public class Account implements AccountInterface {
     private String password;
     private ArrayList<Account> friends;
     private ArrayList<Account> blocked;
+    private boolean friendsOnly;
+
 
     public Account(String data) {
-        //exp: "Cassandra Conners, cconners123, password123"
+        //exp: "Cassandra Conners, cconners123, password123, true"
         String[] info = data.split(",");
         for (int i = 0; i < info.length; i++) {
             info[i] = info[i].trim();
@@ -17,17 +24,20 @@ public class Account implements AccountInterface {
         this.name = info[0];
         this.userName = info[1];
         this.password = info[2];
+        this.friendsOnly = Boolean.parseBoolean(info[3]);
     }
 
     public Account(String data, ArrayList<Account> friends, ArrayList<Account> blocked) {
-        //exp: "Cassandra Conners, cconners123, password123"
+        //exp: "Cassandra Conners, cconners123, password123, true, "
         String[] info = data.split(",");
         for (int i = 0; i < info.length; i++) {
             info[i] = info[i].trim();
         }
+
         this.name = info[0];
         this.userName = info[1];
         this.password = info[2];
+        this.friendsOnly = Boolean.parseBoolean(info[3]);
 
         this.friends = friends;
         this.blocked = blocked;
@@ -47,6 +57,14 @@ public class Account implements AccountInterface {
 
     public void setUsername(String username) {
         this.userName = username;
+    }
+
+    public boolean getFriendsOnly() {
+        return friendsOnly;
+    }
+
+    public void setFriendsOnly(boolean friendsOnly) {
+        this.friendsOnly = friendsOnly;
     }
 
     public String getPassword() {
@@ -87,18 +105,18 @@ public class Account implements AccountInterface {
         this.blocked = blocked;
     }
 
-    public boolean addBlocked(Account blocked) {
-        if (this.blocked.contains(blocked)) {
+    public boolean addBlocked(Account bk) {
+        if (this.blocked.contains(bk)) {
             return true;
         }
-        if (this.friends.contains(blocked)) {
-            removeFriend(blocked);
+        if (this.friends.contains(bk)) {
+            removeFriend(bk);
         }
-        return this.blocked.add(blocked);
+        return this.blocked.add(bk);
     }
 
-    public boolean removeBlocked(Account blocked) {
-        return this.blocked.remove(blocked);
+    public boolean removeBlocked(Account bk) {
+        return this.blocked.remove(bk);
     }
 
     public boolean equals(Account account) {
@@ -107,12 +125,12 @@ public class Account implements AccountInterface {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(name).append(", ").append(userName).append(", ").append(password);
+        sb.append(name).append(", ").append(userName).append(", ").append(password).append(", ").append(friendsOnly);
 
         if (friends != null && !friends.isEmpty()) {
-            sb.append(" Friends: ");
+            sb.append("<");
             for (int i = 0; i < friends.size(); i++) {
-                sb.append(friends.get(i).toString());
+                sb.append(friends.get(i).getName());
                 if (i < friends.size() - 1) {
                     sb.append(", ");
                 }
@@ -120,9 +138,9 @@ public class Account implements AccountInterface {
         }
 
         if (blocked != null && !blocked.isEmpty()) {
-            sb.append(" Blocked: ");
+            sb.append("<");
             for (int i = 0; i < blocked.size(); i++) {
-                sb.append(blocked.get(i).toString());
+                sb.append(blocked.get(i).getName());
                 if (i < blocked.size() - 1) {
                     sb.append(", ");
                 }
@@ -132,3 +150,4 @@ public class Account implements AccountInterface {
         return sb.toString();
     }
 }
+
