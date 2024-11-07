@@ -1,0 +1,25 @@
+1. Comprehensive Test Case
+  - Connecting classes
+2. Focus on basic functionality requirement needed
+3. Database is supposed to be concurrent (HW10 CHALLENGE!!!)
+4. ReadMe needs to add how to run the code
+
+Phase 2:
+1. Server
+2. Database
+3. Multiple Client
+- Have to have multiple clients with a single server
+Needs to make it threads safe to make it able for multiple clients
+how to do it:
+- accept function in dataSocket
+1. Accept connection from client
+2. Create two threads (1 for reading, other for writing to client) > all for communication for one client
+3. Then, two threads for another client
+4. continue...
+5. Messages is more difficult as it's real time and needs to know 
+  - Getting message from one person, want to send message to another guy, have to keep track in hashmap or hashtable to map the things
+- map the messages and thread object as well
+you don't know if if c3 is keeping track with c1
+C2 > Server > C1
+Start server, create client, send in username password, info send to network, to server, server check db, send info back to client
+Simulate that with test cases
