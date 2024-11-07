@@ -1,0 +1,5 @@
+John, jJohn123, Password123, true
+Alice, aAlice123, newPassword8, true
+Sugon, sSugon123, somethingHere, true
+Amy, aAmy123, outOfIdeas, true
+Tom, tTom123, NoClue, false
