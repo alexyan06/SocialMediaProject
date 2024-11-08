@@ -23,3 +23,14 @@ you don't know if if c3 is keeping track with c1
 C2 > Server > C1
 Start server, create client, send in username password, info send to network, to server, server check db, send info back to client
 Simulate that with test cases
+
+Phase 2 steps
+- while loop that accept continuous clients
+0 Every conection you spawn a thread, sockethandler, handle input output
+- socket handler post > event handler > call to 
+
+phase 2 steps
+- while loop that accept continuos clients
+- socket handler (runnable on each clients)
+- socket handler handle commands
+- needs eventhandler for messages so you can post and subscribe (like a digital newsletter) to eventhandler (publisher would be the socket itself, socket will receive command the user get the message, each socket handler can post to the eventhandler)
