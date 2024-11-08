@@ -1,8 +1,8 @@
-1. Comprehensive Test Case
+1. Comprehensive Test Case - Jakob
   - Connecting classes
-2. Focus on basic functionality requirement needed
-3. Database is supposed to be concurrent (HW10 CHALLENGE!!!)
-4. ReadMe needs to add how to run the code
+2. Focus on basic functionality requirement needed - Alex 
+3. Database is supposed to be concurrent (HW10 CHALLENGE!!!) - Sripoorna
+4. ReadMe needs to add how to run the code - At the end. 
 
 Phase 2:
 1. Server
