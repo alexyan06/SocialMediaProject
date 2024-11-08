@@ -34,3 +34,10 @@ phase 2 steps
 - socket handler (runnable on each clients)
 - socket handler handle commands
 - needs eventhandler for messages so you can post and subscribe (like a digital newsletter) to eventhandler (publisher would be the socket itself, socket will receive command the user get the message, each socket handler can post to the eventhandler)
+
+11/8 goals:
+- Explain phase 1 code
+- Understand changes and doing changes for phase 1
+- learn about phase 2 and its technologies
+- Assign phase 2 roles
+- Start phase 2
