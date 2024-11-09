@@ -1,0 +1,64 @@
+SocialMediaDatabase Functions:
+
+- outputAccountInfo (good)
+ - reads through accounts (arraylist) and puts it back into the accountInfo (String)
+
+- readDMFileNames (good)
+ - reads through DMFileName (string) and inputs all of it into DMs (arrayList)
+
+- outputDMFileNames (good)
+ - reads through DMs (arraylist) and inputs all of it into DMFileName (string)
+
+- readDMs (fine)
+  - different from readDMFileNames as readDMFileNames reads from existing info from 
+    constructor (DMFileName in line 15) and inputs that into DMs (ArrayList
+    readDMs reads from a given filename (String) and just simply returns that but
+    in a arrayList
+  - may not be definitely needed, but not a problem to have in the code
+
+- outputDMs (good)
+  - reads through messages (ArrayList of messages) and writes it out to filename
+
+- getters (all good)
+
+- addDM (almost completely good)
+  - finds sender's username, reads through getter's friends and blocked
+    makes sure sender can send message to getter
+    makes the messageSize the index of messages
+    adds the message to messages (arraylist)
+    the getDMFiletxt gets a txt file that the message will be written on
+    outputDMs output the arrayList of messages onto that filename from line 188
+- don't fully understand functionaity of line 188, but probably fine just double check it
+
+- removeDM (good)
+  - checks for the specific index that the user wants to remove
+  - find the username in that specific index of the messages arrayList
+  - checks if it's in there, if so, removes it from messages
+  - after, reindex the messages so if there were three message ([0], [1], [2]) and the
+    middle one was taken out, it reindex [2] to [1]
+  - creates a txt file of remover and the other account to write to
+  - output the updated messages (arrayList) onto the txt file
+
+- createDM (good)
+ - creates a txt file of sender and getter to write to
+ - checks if DMs (arraylist) already contains that txt file, if it does, it means those two accounts already dm'd each other
+ - if not, it writes "[0] start DMs." to the txt file and returns that
+
+- addAccount (good)
+  - adds accountStats (String) to accountInfo (String)
+  - then makes a Account object from the accountStats and adds that to the accounts (arraylist)
+
+- login (good)
+  - checks if username and password entered are equal
+  - if so, returns that account that the username and password equal to
+  - else, it throws exception
+
+- findAccount (good)
+  - goes through accounts (arrayList) and returns account with same name (not username)
+  - if not, throws exception
+
+- getDMFiletxt (good) IMPORTANT (was getDMFileName with two parameters, if test case don't work when it's getDMFileName with two parameters, change it to getDMFiletxt)
+ - gets a filename based on the two accounts
+
+- changeAccount (good)
+  - changes the account based on given name and changes it to an account object
