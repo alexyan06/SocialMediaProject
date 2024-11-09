@@ -1,6 +1,4 @@
-import javax.management.modelmbean.InvalidTargetObjectTypeException;
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,13 +11,15 @@ public class SocialMediaDatabase implements SocialMediaInterface{
     private String DMFileName;//String for ALL dm filenames
 
     public SocialMediaDatabase(String accountInfo, String DMFileName) {
-        this.accountInfo=accountInfo;
-        this.DMFileName=DMFileName;
+        this.accountInfo = accountInfo;
+        this.DMFileName = DMFileName;
         this.accounts = new ArrayList<>();
         this.DMs = new ArrayList<>();
-
+        readAccountInfo();
+        readDMFileNames();
     }
-
+    //transfer raw accountInfo string (name, username, password, boolean, <friends, <blocked)
+        //to Account type
     public boolean readAccountInfo() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(accountInfo));
@@ -38,7 +38,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
                     String[] friendsNames = dataSplit[1].split(",");
                     String[] blockedNames = dataSplit[2].split(",");
                     ArrayList<Account> friends = new ArrayList<>();
-                    ArrayList<Account> blocked =  new ArrayList<>();
+                    ArrayList<Account> blocked = new ArrayList<>();
 
                     if (!friendsNames[0].isEmpty()) {
                         for (int j = 0; j < friendsNames.length; j++) {
@@ -183,7 +183,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             int messageSize = messages.size(); //messages is message
             messages.add("[" + messageSize + "] " + sendMes.getUsername() + ": " + message);
 
-            String filename = getDMFileName(sendMes, getMes);
+            String filename = getDMFiletxt(sendMes, getMes); //(sendMes,getMes.txt is what's written to
             outputDMs(filename, messages);
 
             return messages;
@@ -210,7 +210,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
                 messages.set(i, reindex);
             }
 
-            outputDMs(getDMFileName(remove, other), messages);
+            outputDMs(getDMFiletxt(remove, other), messages);
             return messages;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Error removing message: " + e.getMessage());
@@ -220,7 +220,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
     //create DM between sender and target
     public String createDM(Account sendMes, Account getMes) throws InvalidTargetException {
         try {
-            String filename = getDMFileName(sendMes, getMes);
+            String filename = getDMFiletxt(sendMes, getMes);
             if (DMs.contains(filename)) {
                 throw new InvalidTargetException("DMs with this person already exists.");
             }
@@ -274,9 +274,18 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         throw new BadDataException("No account exists with that name");
     }
 
+    public Account findUsername(String userName) throws BadDataException {
+        for (Account account : accounts) {
+            if (account.getUsername().equals(userName)) {
+                return account;
+            }
+        }
+        throw new BadDataException("No account exists with that name");
+    }
+
 
     //generate a consistent filename based on two account names
-    public String getDMFileName(Account user, Account user2) {
+    public String getDMFiletxt(Account user, Account user2) {
         ArrayList<String> names = new ArrayList<>(Arrays.asList(user.getUsername(), user2.getUsername()));
         Collections.sort(names);
         return names.get(0) + "," + names.get(1) + ".txt";
