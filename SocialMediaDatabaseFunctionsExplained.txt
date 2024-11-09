@@ -54,8 +54,12 @@ SocialMediaDatabase Functions:
   - else, it throws exception
 
 - findAccount (good)
-  - goes through accounts (arrayList) and returns account with same name (not username)
+  - goes through accounts (arrayList) and returns account with same name
   - if not, throws exception
+
+- findUsername (good)
+ - goes through accounts (arraylist) and retursn account with same username
+ - if not, throws exception
 
 - getDMFiletxt (good) IMPORTANT (was getDMFileName with two parameters, if test case don't work when it's getDMFileName with two parameters, change it to getDMFiletxt)
  - gets a filename based on the two accounts
