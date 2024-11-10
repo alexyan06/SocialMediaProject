@@ -1,5 +1,5 @@
-Alex, aYan123, password123, true, {john, {smith
-John, johnDoe, pass456, true, {john, {smith
-Sarah, sarahS, mypass789, false, {john, {smith
-Peter, peterP, secret101, true, {john, {smith
-Linda, lindaL, qwerty987, false, {john, {smith
+Alex, aYan123, password123, true, <john, <smith
+John, johnDoe, pass456, true, <john, <smith
+Sarah, sarahS, mypass789, false, <john, <smith
+Peter, peterP, secret101, true, <john, <smith
+Linda, lindaL, qwerty987, false, <john, <smith
