@@ -9,8 +9,6 @@ public interface AccountInterface {
 
     public String getName();
     public void setName(String name);
-    public String getUsername();
-    public void setUsername(String username);
     public String getPassword();
     public void setPassword(String password);
     public ArrayList<Account> getFriends();
@@ -26,4 +24,3 @@ public interface AccountInterface {
     public boolean equals(Account account);
     public String toString();
 }
-
