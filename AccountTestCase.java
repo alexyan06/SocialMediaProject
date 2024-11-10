@@ -19,7 +19,6 @@ public class AccountTestCase {
         private final InputStream originalSysin = System.in;
 
         private String name;
-        private String userName;
         private String password;
         private ArrayList<Account> friends;
         private ArrayList<Account> blocked;
@@ -53,7 +52,7 @@ public class AccountTestCase {
         }
 
         @Test public void testAccountConstructor() {
-            Account test = new Account("Alex, aAlex123, 123password, true");
+            Account test = new Account("Alex, 123password, true");
 
             assertNotNull(test.getName());
             assertNotNull(test.getPassword());
@@ -62,9 +61,9 @@ public class AccountTestCase {
         }
 
         @Test public void testAccountConstructorWithParameters() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> friendly = new ArrayList<Account>();
             friendly.add(friend1);
@@ -72,7 +71,7 @@ public class AccountTestCase {
             ArrayList<Account> blocker = new ArrayList<Account>();
             blocker.add(block1);
 
-            Account tester = new Account("Alex, aAlex123, 123password, true", friendly, blocker);
+            Account tester = new Account("Alex, 123password, true", friendly, blocker);
 
             assertNotNull(tester.getFriends());
             assertNotNull(tester.getBlocked());
@@ -87,9 +86,9 @@ public class AccountTestCase {
         }
 
         @Test public void testAddFriend() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> friendly = new ArrayList<Account>();
             friendly.add(friend1);
@@ -97,8 +96,8 @@ public class AccountTestCase {
             ArrayList<Account> blocker = new ArrayList<Account>();
             blocker.add(block1);
 
-            Account test = new Account("Alex, aAlex123, 123password, true", friendly, blocker);
-            Account testerFriend = new Account("Candy, cCandy123, AwesomePassword23, true");
+            Account test = new Account("Alex, 123password, true", friendly, blocker);
+            Account testerFriend = new Account("Candy, AwesomePassword23, true");
             test.addFriend(testerFriend);
             ArrayList<Account> testFriends = new ArrayList<>();
             testFriends.add(friend1);
@@ -106,7 +105,7 @@ public class AccountTestCase {
             testFriends.add(testerFriend);
 
             assertEquals(testFriends, test.getFriends());
-            Account testBlocked = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account testBlocked = new Account("Rebecca, rRebeccaPassword, true");
             boolean block = test.addFriend(testBlocked);
             assertEquals(true, block);
             assertTrue(block1.getFriendsOnly());
@@ -115,9 +114,9 @@ public class AccountTestCase {
 
 
         @Test public void testAddBlocked() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> friendly = new ArrayList<Account>();
             friendly.add(friend1);
@@ -125,8 +124,8 @@ public class AccountTestCase {
             ArrayList<Account> blocker = new ArrayList<Account>();
             blocker.add(block1);
 
-            Account test = new Account("Alex, aAlex123, 123password, true", friendly, blocker);
-            Account testBlocked = new Account("Joey, rJoey123, jJoeyPassword, true");
+            Account test = new Account("Alex, 123password, true", friendly, blocker);
+            Account testBlocked = new Account("Joey, jJoeyPassword, true");
 
             test.addBlocked(testBlocked);
             ArrayList<Account> testerBlocked = new ArrayList();
@@ -139,7 +138,7 @@ public class AccountTestCase {
             testFriends.add(friend2);
 
             assertEquals(testFriends, test.getFriends());
-            Account alreadyBlock = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account alreadyBlock = new Account("Rebecca, rRebeccaPassword, true");
             boolean bk = test.addBlocked(alreadyBlock);
             assertEquals(true, test.addBlocked(testBlocked));
             assertEquals(true, bk);
@@ -148,9 +147,9 @@ public class AccountTestCase {
         }
 
         @Test public void testRemoveFriend() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> friendly = new ArrayList<Account>();
             friendly.add(friend1);
@@ -158,7 +157,7 @@ public class AccountTestCase {
             ArrayList<Account> blocker = new ArrayList<Account>();
             blocker.add(block1);
 
-            Account test = new Account("Alex, aAlex123, 123password, true", friendly, blocker);
+            Account test = new Account("Alex, 123password, true", friendly, blocker);
 
             test.removeFriend(friend2);
             ArrayList<Account> newFriends = new ArrayList<>();
@@ -171,9 +170,9 @@ public class AccountTestCase {
         // Says failed, but the concepts being compared are in fact identical
 
         @Test public void testRemoveBlocked() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> friendly = new ArrayList<Account>();
             friendly.add(friend1);
@@ -181,8 +180,8 @@ public class AccountTestCase {
             ArrayList<Account> blocker = new ArrayList<Account>();
             blocker.add(block1);
 
-            Account test = new Account("Alex, aAlex123, 123password, true", friendly, blocker);
-            Account blockAccount = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account test = new Account("Alex, 123password, true", friendly, blocker);
+            Account blockAccount = new Account("Rebecca, rRebeccaPassword, true");
 
             test.removeBlocked(blockAccount);
             ArrayList<Account> block = new ArrayList<>();
@@ -195,16 +194,16 @@ public class AccountTestCase {
 
 
         @Test public void testAccountToString() {
-            Account test = new Account("Alex, aAlex123, 123password, true");
+            Account test = new Account("Alex, 123password, true");
             String written = test.toString();
 
-            assertEquals("Alex, aAlex123, 123password, true", written);
+            assertEquals("Alex, 123password, true", written);
         }
 
         @Test public void testGetMethods() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> friendly = new ArrayList<Account>();
             friendly.add(friend1);
@@ -212,7 +211,7 @@ public class AccountTestCase {
             ArrayList<Account> blocker = new ArrayList<Account>();
             blocker.add(block1);
 
-            Account test = new Account("Alex, aAlex123, 123password, true", friendly, blocker);
+            Account test = new Account("Alex, 123password, true", friendly, blocker);
 
             String written = test.toString();
 
@@ -226,13 +225,13 @@ public class AccountTestCase {
             assertEquals(testFriends, test.getFriends());
             assertEquals("Alex", test.getName());
             assertEquals("123password", test.getPassword());
-            assertEquals("Alex, aAlex123, 123password, true, <Naomi, Joey, <Rebecca", written);
+            assertEquals("Alex, 123password, true, <Naomi, Joey, <Rebecca", written);
         }
 
         @Test public void testSetMethods() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Joey, rJoey123, jJoeyPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             ArrayList<Account> testFriends = new ArrayList<>();
             testFriends.add(friend1);
@@ -250,9 +249,9 @@ public class AccountTestCase {
         }
 
         @Test public void testEquals() {
-            Account friend1 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account friend2 = new Account("Naomi, aNaomi123, nNaomiPassword, true");
-            Account block1 = new Account("Rebecca, aRebecca123, rRebeccaPassword, true");
+            Account friend1 = new Account("Naomi, nNaomiPassword, true");
+            Account friend2 = new Account("Joey, jJoeyPassword, true");
+            Account block1 = new Account("Rebecca, rRebeccaPassword, true");
 
             assertEquals(true, friend1.equals(friend2));
             assertEquals(false, friend1.equals(block1));
