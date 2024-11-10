@@ -150,4 +150,3 @@ public class Account implements AccountInterface {
         return sb.toString();
     }
 }
-
