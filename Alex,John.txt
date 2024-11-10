@@ -1,0 +1,3 @@
+[0] Direct Messages Started!
+[1] Alex: Hi!
+[2] John: Hello!
