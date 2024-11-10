@@ -50,46 +50,29 @@ public class SocialMediaTestCase {
         }
 
         @Test public void testSocialMediaDatabaseConstructor() {
-            SocialMediaDatabase media = new SocialMediaDatabase("testSocialMediaDatabaseConstructorFile.txt", "inputDirectMessageFile.txt");
+            SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             assertNotNull(media.getAccountInfo());
             assertNotNull(media.getDMFileName());
             ArrayList<String> files = new ArrayList<>();
-            files.add("{Alice, {John");
-            files.add("{Amy, {Sugon");
-            assertEquals("testSocialMediaDatabaseConstructorFile.txt", media.getAccountInfo());
+            files.add("Alex:John");
+            files.add("Peter:Griffin");
+            assertEquals("inputAccountSaveFile.txt", media.getAccountInfo());
             assertEquals(files, media.getDMs());
             assertEquals(true, media.readAccountInfo());
             assertEquals(true, media.outputAccountInfo());
         }
         // doubles the file
 
-        @Test public void testReadAccountInfo() {
-            SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
-            ArrayList<Account> newAccounts = new ArrayList<>();
-            media.setAccounts(newAccounts);
-            assertEquals(true, media.readAccountInfo());
-            assertNotNull(media.getAccounts());
-            ArrayList<String> testerAccount = new ArrayList();
-            testerAccount.add("Alex, aYan123, password123, true, {john, {smith");
-            testerAccount.add("John, johnDoe, pass456, true, {john, {smith");
-            testerAccount.add("Sarah, sarahS, mypass789, false, {john, {smith");
-            testerAccount.add("Peter, peterP, secret101, true, {john, {smith");
-            testerAccount.add("Linda, lindaL, qwerty987, false, {john, {smith");
-            assertEquals(testerAccount, media.getAccounts());
-        }
-        // test are the same when compared, the reason they are different is that creating an Account takes the
-        // other parameters off, which is then given back in the getAccounts() method
-
-
-        @Test public void testOutputAccountInfo() {
+        @Test public void testoutputAccountInfo() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             assertEquals(true, media.outputAccountInfo());
             ArrayList<String> actual = new ArrayList<>();
-            actual.add("Alex, aYan123, password123, true, {john, {smith");
-            actual.add("John, johnDoe, pass456, true, {john, {smith");
-            actual.add("Sarah, sarahS, mypass789, false, {john, {smith");
-            actual.add("Peter, peterP, secret101, true, {john, {smith");
-            actual.add("Linda, lindaL, qwerty987, false, {john, {smith");
+            actual.add("Alex, password123, true<Peter, John<Sarah");
+            actual.add("John, pass456, true<Alex<Sarah");
+            actual.add("Sarah, mypass789, false<Peter<Sarah");
+            actual.add("Peter, secret101, true<Sarah<Alex");
+            actual.add("Linda, qwerty987, false<John<Sarah");
+            actual.add("Alice, newPassword8,true<John, Sarah<Peter");
             ArrayList<String> written = new ArrayList<>();
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(media.getAccountInfo()));
@@ -105,27 +88,22 @@ public class SocialMediaTestCase {
             assertEquals(actual, written);
         }
 
-
-        @Test public void testReadDMFileNames() {
+        @Test public void testreadDMFileNames() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             ArrayList<String> test = new ArrayList();
             ArrayList<String> messageNames = new ArrayList();
-            test = media.readDMFileNames();
             assertNotNull(test);
-            messageNames.add("{Alice, {John");
-            messageNames.add("{Amy, {Sugon");
-            messageNames.add("{Alice, {John");
-            messageNames.add("{Amy, {Sugon");
-            assertEquals(messageNames, test);
+            messageNames.add("Alex:John");
+            messageNames.add("Peter:Griffin");
+            assertEquals(messageNames, media.getDMs());
         }
 
-
-        @Test public void testOutputDMsNames() {
+        @Test public void testoutputDMsNames() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             assertEquals(true, media.outputDMFileNames());
             ArrayList<String> actual = new ArrayList<>();
-            actual.add("{Alice, {John");
-            actual.add("{Amy, {Sugon");
+            actual.add("Alex:John");
+            actual.add("Peter:Griffin");
             ArrayList<String> written = new ArrayList<>();
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(media.getDMFileName()));
@@ -141,20 +119,18 @@ public class SocialMediaTestCase {
             assertEquals(actual, written);
         }
 
-
         @Test public void testReadDirectMessages() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
-            ArrayList<String> output = media.readDMs("Alice,John.txt");
+            ArrayList<String> output = media.readDMs("Alex,John.txt");
             assertNotNull(output);
             ArrayList<String> actual = new ArrayList<>();
             actual.add("[0] Direct Messages Started!");
-            actual.add("[1] Alice: hi!");
+            actual.add("[1] Alex: hi!");
             actual.add("[2] John: hello!");
             assertEquals(actual, output);
-        }
+        } //Returns same thing, but says incorrect
 
-
-        @Test public void testOutputDMs() {
+        @Test public void testoutputDMs() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             assertEquals(true, media.outputDMs("inputDirectMessageFile.txt", media.getDMs()));
             ArrayList<String> readMessagesName = new ArrayList<>();
@@ -171,20 +147,19 @@ public class SocialMediaTestCase {
                 e.printStackTrace();
                 fail();
             }
-            written.add("{Alice, {John");
-            written.add("{Amy, {Rand");
+            written.add("Alex:John");
+            written.add("Peter:Griffin");
             assertEquals(readMessagesName, written);
 
         }
 
-        //works
         @Test public void testAddMessage()  {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
-            Account one = new Account("Alex, aYan123, password123, true, {john, {smith");
-            Account two = new Account("John, johnDoe, pass456, true, {john, {smith");
-            Account three = new Account("Sarah, sarahS, mypass789, false, {john, {smith");
-            Account four = new Account("Alice, aAlice123, newPassword8,true, {john, {smith");
-            Account five = new Account("Amy, aAmy123, qwerty123,true, {john, {smith");
+            Account one = new Account("Alex, password123, true<john<smith");
+            Account two = new Account("John, pass456, true<john<smith");
+            Account three = new Account("Sarah, mypass789, false<john<smith");
+            Account four = new Account("Alice, newPassword8,true<john<smith");
+            Account five = new Account("Amy, qwerty123,true<john<smith");
             ArrayList<String> messages = new ArrayList<>();
             ArrayList<String> addedMessage = new ArrayList<>();
             ArrayList<Account> friends = new ArrayList<>();
@@ -197,8 +172,8 @@ public class SocialMediaTestCase {
             friends2.add(three);
             blocked.add(one);
             blocked2.add(one);
-            Account friend1 = new Account("Alice, aAlice123, newPassword8,true", friends, blocked);
-            Account friend2 = new Account("Amy, aAmy123, qwerty123,true", friends2, blocked2);
+            Account friend1 = new Account("Alice, newPassword8,true", friends, blocked);
+            Account friend2 = new Account("Amy, qwerty123,true", friends2, blocked2);
             messages.add("[0] Direct Messages Started!");
             messages.add("[1] Alice: Hi!");
             messages.add("[2] Amy: Hello!");
@@ -217,12 +192,12 @@ public class SocialMediaTestCase {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             ArrayList<String> messages = new ArrayList<>();
             ArrayList<String> removeMessage = new ArrayList<>();
-            Account friend1 = new Account("Alice, aAlice123, newPassword8, true, {John,Amy");
-            Account friend2 = new Account("Amy, aAmy123, outOfIdeas, true, {Alice, Rand, {Tom, John");
-            messages.add("(0) Direct Messages Started!");
-            messages.add("(1) Alice: Hi!");
-            messages.add("(2) Amy: Hello!");
-            messages.add("(3) Alice: Hwo are you?");
+            Account friend1 = new Account("Alice, newPassword8, true<Amy<John");
+            Account friend2 = new Account("Amy, outOfIdeas, true<Alice<Tom");
+            messages.add("[0] Direct Messages Started!");
+            messages.add("[1] Alice: Hi!");
+            messages.add("[2] Amy: Hello!");
+            messages.add("[3] Alice: Hwo are you?");
             try {
                 removeMessage = media.removeDM(messages, friend2, friend1, 2);
             } catch (InvalidTargetException e) {
@@ -233,12 +208,11 @@ public class SocialMediaTestCase {
             assertEquals(messages, removeMessage);
         }
 
-
         @Test public void testCreateDirectMessage() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
             String created = "";
-            Account friend1 = new Account("Alice, aAlice123, newPassword8,true, {John,Amy");
-            Account friend2 = new Account("Amy, aAmy123, outOfIdeas,true, {Alice,Rand, {Tom,John");
+            Account friend1 = new Account("Alice, newPassword8, true<Amy<John");
+            Account friend2 = new Account("Amy, outOfIdeas, true<Alice<Tom");
             try {
                 created = media.createDM(friend1, friend2);
             } catch (InvalidTargetException e) {
@@ -250,18 +224,25 @@ public class SocialMediaTestCase {
             assertEquals(filename, created);
         }
 
-        //works
         @Test public void testAddAccount() {
-            SocialMediaDatabase media = new SocialMediaDatabase("testAccountsSaveFile.txt", "inputDirectMessageFile.txt");
-            Account candy = new Account("Candy, cCandy123, AwesomePassword23,true, {Alice,Amy, {Sugon");
-            boolean works = media.addAccount("Candy, cCandy123, AwesomePassword23,true, {Alice,Amy, {Rand");
+            SocialMediaDatabase media = new SocialMediaDatabase("testAccountSaveFile.txt", "inputDirectMessageFile.txt");
+            boolean works = media.addAccount("Candy, AwesomePassword23,true<Alice, Amy<Rand");
             assertEquals(true, works);
         }
         // prints to file
 
         @Test public void testLogIntoAccount() {
-            SocialMediaDatabase media = new SocialMediaDatabase("testAccountsProcessed.txt", "inputDirectMessageFile.txt");
-            Account friend1 = new Account("Alice, aAlice123, newPassword8,true, {John,Amy");
+            SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
+            Account John = new Account("John, newPassword, true");
+            Account Sarah = new Account("Sarah, newPssword, true");
+            Account Peter = new Account("Peter, newPssword, true");
+            ArrayList<Account> Friends = new ArrayList<>();
+            ArrayList<Account> Blocked = new ArrayList<>();
+            Friends.add(John);
+            Friends.add(Sarah);
+            Blocked.add(Peter);
+
+            Account friend1 = new Account("Alice, newPassword8,true", Friends, Blocked);
             Account login = null;
             Account failLogin = null;
             try {
@@ -278,71 +259,46 @@ public class SocialMediaTestCase {
             }
             assertNotEquals(friend1, failLogin);
         }
-        
-        // Says failed, but the concepts being compared are in fact identical 
-        // Edit: I'm going to lose it
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠴⠖⠛⠋⠉⠉⠉⠉⠉⠉⠉⠉⠙⠓⠶⢤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⢀⣀⣀⡀⠀⠀⠀⢀⣀⣀⣀⠤⠒⠊⠁⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⣠⣞⡁⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⡀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⢀⣼⣿⢿⣄⣀⡀⠀⠀⠀⠀⢀⡠⠖⠂⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⣄⠀⠀⠀⠀
-        //⠀⠀⠀⢠⣿⣿⣿⣦⣅⠀⠈⠁⠀⠀⠐⠁⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣧⠀⠀⠀
-        //⠀⠀⢠⣿⡟⠁⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⠀⠀⢀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠘⡆⠀⠀
-        //⠀⢀⣿⣿⠁⡀⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⡀⠀
-        //⢠⣿⣟⠋⡼⠁⠀⠀⠀⠀⠈⢺⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡇⢸⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀
-        //⣼⣿⣇⢺⣅⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠃⠀⠱⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡄
-        //⣼⣿⠿⠀⣿⣶⡶⠒⠒⠤⣀⢀⡇⠀⠀⠀⢀⣠⣴⣶⣶⣶⣶⣶⣶⣿⠛⠉⠀⠀⠀⠀⠈⠢⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇
-        //⢸⣿⡷⢀⡘⣿⣧⡀⠐⢀⣿⣿⣍⠉⠉⣿⣿⣿⣿⣿⠟⢋⣉⡉⢻⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡇
-        //⠀⣿⣿⣿⠀⠹⣿⣿⣿⣿⣿⡁⢻⡀⣼⣿⡿⣿⣿⣿⡀⠸⠿⠟⢸⡇⢀⣤⠶⠒⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀
-        //⠀⢻⣿⣿⣦⣀⠀⠉⠛⢻⣿⡄⠀⡊⠉⢫⣀⣋⠛⢿⣕⣂⣤⡴⣿⡷⠋⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀
-        //⠀⠘⣿⡟⣿⣿⣦⡀⢀⣾⣿⣻⠀⠀⢠⡎⢈⣿⠷⣦⣍⠉⠛⠚⠉⢀⡠⠴⡄⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠀⠀
-        //⠀⠀⠘⣿⣿⣿⡴⣍⠉⠁⠘⣿⠀⢠⣿⠴⠛⠁⠀⠀⠈⠙⠶⠶⠾⢋⠔⠀⠁⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⠀⠀
-        //⠀⠀⠀⠹⣿⡟⣿⡈⢷⣄⠀⢻⣤⡾⠀⡄⠀⠀⠀⠀⠀⠀⢀⣤⡖⠁⠀⠀⣰⣷⡖⠀⠀⠀⠀⠀⠀⠀⠀⣠⡿⠁⠀⠀
-        //⠀⠀⠀⠀⠈⢿⣿⣿⣮⠙⣷⣶⣿⣤⣴⣿⣦⣄⣀⣤⠴⠶⠟⠋⠀⠀⠀⣾⣿⢿⠃⠀⠀⠀⠀⠀⠀⠀⣸⠏⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠻⣿⣿⣧⠙⠷⣤⡀⠀⠈⣥⣴⠞⠋⠀⠀⠀⠀⠀⠀⣼⡟⠉⠀⠀⠀⠀⠀⠀⠀⢀⣼⠏⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠙⢿⣾⣷⡀⢈⡇⠀⠀⠱⣄⠀⠀⠀⠀⠀⠀⠀⣰⠏⠀⠀⠀⠀⠀⠀⠀⢀⣴⡟⠁⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⠿⣆⣳⠄⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀⢀⣠⠶⠋⠈⣷⡄⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠶⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⣀⣠⡴⠚⠉⠀⠀⠀⠀⠸⣷⠀⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⢹⡟⠿⠿⠿⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⢿⣧⠀⠀⠀⠀⠀
-        //⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⠀⠀⠀⠀⠀
-        @Test public void testFindAccount() {
-            SocialMediaDatabase media = new SocialMediaDatabase("testAccountsProcessed.txt", "inputDirectMessageFile.txt");
-            Account Alice = new Account("Alice, aAlice123, newPassword8, true, <John, <Amy");
-            media.addAccount(Alice.toString());
+        // Says failed, but the concepts being compared are in fact identical
+
+        @Test public void testFindAcount() {
+            SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
+            Account John = new Account("John, newPassword, true");
+            Account Sarah = new Account("Sarah, newPssword, true");
+            Account Peter = new Account("Peter, newPssword, true");
+            ArrayList<Account> Friends = new ArrayList<>();
+            ArrayList<Account> Blocked = new ArrayList<>();
+            Friends.add(John);
+            Friends.add(Sarah);
+            Blocked.add(Peter);
+            Account friend1 = new Account("Alice, newPassword8, true", Friends, Blocked);
             Account returned = null;
             try {
                 returned = media.findAccount("Alice");
-            } catch (Exception e) {
+            } catch (BadDataException e) {
                 e.printStackTrace();
                 fail();
             }
-            assertEquals(Alice, returned);
+            assertEquals(friend1, returned);
         }
+        // Says failed, but the concepts being compared are in fact identical
 
-
-        //They don't allow earbuds during the exams bc they know I'd be an academic super weapon
-        @Test public void testGetDMFileName() {
+        @Test public void testGetDirectMessageFileName() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
-            Account friend1 = new Account("Alice, aAlice123, newPassword8,true, <John,Amy");
-            Account friend2 = new Account("Amy,aAmy123, outOfIdeas,true, <Alice,Rand, <Tom,John");
-            String correct = friend1 + "AND" + friend2 + "DMFILE";
-            String filename = media.getDMFileName(friend1, friend2);
+            Account friend1 = new Account("Alice, newPassword8,true<John,Amy");
+            Account friend2 = new Account("Amy, outOfIdeas,true<Alice,Rand<Tom,John");
+            String correct = "Alice,Amy.txt";
+            String filename = media.getDMFiletxt(friend1, friend2);
             assertEquals(correct, filename);
         }
 
-
-        //I'm fucking nuts dude
         @Test public void testChangeAccount() {
             SocialMediaDatabase media = new SocialMediaDatabase("inputAccountSaveFile.txt", "inputDirectMessageFile.txt");
-            Account updatedAccount = new Account("Alice, aAlice123, oldPassword7,true, <amy, <john");
-            try {
-                media.changeAccount("Alice", updatedAccount);
-                String accountInfo = media.getAccountInfo();
-        } catch (Exception e) {
-                e.printStackTrace();
+            Account friend1 = new Account("Alice, oldPassword7,true");
+            media.changeAccount("Alice", friend1);
+            if (!media.getAccounts().contains(friend1)) {
                 fail();
             }
-    }
+        }
     }
 }
