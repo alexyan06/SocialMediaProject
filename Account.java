@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * The Cube class represents a cube in 3D space, composed of six faces.
  *
@@ -8,7 +10,6 @@ import java.util.ArrayList;
 public class Account implements AccountInterface {
 
     private String name;
-    private String userName;
     private String password;
     private ArrayList<Account> friends;
     private ArrayList<Account> blocked;
@@ -22,22 +23,21 @@ public class Account implements AccountInterface {
             info[i] = info[i].trim();
         }
         this.name = info[0];
-        this.userName = info[1];
-        this.password = info[2];
-        this.friendsOnly = Boolean.parseBoolean(info[3]);
+        this.password = info[1];
+        this.friendsOnly = Boolean.parseBoolean(info[2]);
     }
 
     public Account(String data, ArrayList<Account> friends, ArrayList<Account> blocked) {
-        //exp: "Cassandra Conners, cconners123, password123, true, "
-        String[] info = data.split(",");
-        for (int i = 0; i < info.length; i++) {
-            info[i] = info[i].trim();
+        //exp: "Cassandra Conners, password123, true, "
+        String[] info = data.split("<", 3);
+        String[] userInfo = info[0].split(",");
+        for (int i = 0; i < userInfo.length; i++) {
+            userInfo[i] = userInfo[i].trim();
         }
 
-        this.name = info[0];
-        this.userName = info[1];
-        this.password = info[2];
-        this.friendsOnly = Boolean.parseBoolean(info[3]);
+        this.name = userInfo[0];
+        this.password = userInfo[1];
+        this.friendsOnly = Boolean.parseBoolean(userInfo[2]);
 
         this.friends = friends;
         this.blocked = blocked;
@@ -49,14 +49,6 @@ public class Account implements AccountInterface {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUsername() {
-        return userName;
-    }
-
-    public void setUsername(String username) {
-        this.userName = username;
     }
 
     public boolean getFriendsOnly() {
@@ -125,7 +117,7 @@ public class Account implements AccountInterface {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(name).append(", ").append(userName).append(", ").append(password).append(", ").append(friendsOnly);
+        sb.append(name).append(", ").append(password).append(", ").append(friendsOnly);
 
         if (friends != null && !friends.isEmpty()) {
             sb.append("<");
@@ -150,3 +142,4 @@ public class Account implements AccountInterface {
         return sb.toString();
     }
 }
+
