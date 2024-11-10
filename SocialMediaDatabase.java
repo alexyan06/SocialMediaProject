@@ -18,8 +18,8 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         readAccountInfo();
         readDMFileNames();
     }
-    //transfer raw accountInfo string (name, username, password, boolean, <friends, <blocked)
-    //to Account type
+    //transfer raw accountInfo string (name, password, boolean<friends<blocked)
+        //to Account type
     public boolean readAccountInfo() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(accountInfo));
@@ -30,40 +30,47 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             }
             br.close();
 
-            for (int i = 0; i < accounts.size(); i++) {
-                BufferedReader br2 = new BufferedReader(new FileReader(accountInfo));
-                String line2;
-                while ((line2 = br2.readLine()) != null) {
-                    String[] dataSplit = line2.split("<", 3);
-                    String[] friendsNames = dataSplit[1].split(",");
-                    String[] blockedNames = dataSplit[2].split(",");
-                    ArrayList<Account> friends = new ArrayList<>();
-                    ArrayList<Account> blocked = new ArrayList<>();
+            BufferedReader br2 = new BufferedReader(new FileReader(accountInfo));
+            String line2;
+            while ((line2 = br2.readLine()) != null) {
+                String[] dataSplit = line2.split("<");
+                String[] friendsNames = dataSplit[1].split(",");
+                String[] blockedNames = dataSplit[2].split(",");
 
-                    if (!friendsNames[0].isEmpty()) {
-                        for (int j = 0; j < friendsNames.length; j++) {
-                            friends.add(findAccount(friendsNames[j]));
-                        }
-                    }
-
-                    if (!blockedNames[0].isEmpty()) {
-                        for (int j = 0; j < blockedNames.length; j++) {
-                            blocked.add(findAccount(blockedNames[j]));
-                        }
-                    }
-
-                    Account postAccount = new Account(line2, friends, blocked);
-                    changeAccount(postAccount.getName(), postAccount);
+                for (int i = 0; i < friendsNames.length; i++) {
+                    friendsNames[i] = friendsNames[i].trim();
                 }
-                br2.close();
+
+                for (int i = 0; i < blockedNames.length; i++) {
+                    blockedNames[i] = blockedNames[i].trim();
+                }
+                ArrayList<Account> friends = new ArrayList<>();
+                ArrayList<Account> blocked = new ArrayList<>();
+
+                if (!friendsNames[0].isEmpty()) {
+                    for (int j = 0; j < friendsNames.length; j++) {
+                        friends.add(findAccount(friendsNames[j]));
+                    }
+                }
+
+                if (!blockedNames[0].isEmpty()) {
+                    for (int j = 0; j < blockedNames.length; j++) {
+                        blocked.add(findAccount(blockedNames[j]));
+                    }
+                }
+
+                Account postAccount = new Account(line2, friends, blocked);
+                changeAccount(postAccount.getName(), postAccount);
             }
+            br2.close();
+            br2 = null;
             return true;
 
         } catch (IOException e) {
-            System.out.println("Error reading accounts file: " + e.getMessage());
+            System.err.println("Error reading accounts file: " + e.getMessage());
             return false;
         } catch (BadDataException e) {
-            System.out.println("Error reading accounts file: " + e.getMessage());
+            System.err.println("Error reading accounts file: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -163,14 +170,14 @@ public class SocialMediaDatabase implements SocialMediaInterface{
     //add message from a sender to target
     public ArrayList<String> addDM(Account sendMes, Account getMes, ArrayList<String> messages, String message) throws InvalidTargetException {
         try {
-            String sendMesName = sendMes.getUsername();
+            String sendMesName = sendMes.getName();
             ArrayList<String> getMesFriendsUsername = new ArrayList<>();
             for (int i = 0; i < getMes.getFriends().size(); i++) {
-                getMesFriendsUsername.add(getMes.getFriends().get(i).getUsername());
+                getMesFriendsUsername.add(getMes.getFriends().get(i).getName());
             }
             ArrayList<String> getMesBlockedUsername = new ArrayList<>();
             for (int i = 0; i < getMes.getBlocked().size(); i++) {
-                getMesBlockedUsername.add(getMes.getBlocked().get(i).getUsername());
+                getMesBlockedUsername.add(getMes.getBlocked().get(i).getName());
             }
 
             if (getMes.getFriendsOnly() && !getMesFriendsUsername.contains(sendMesName)) {
@@ -181,7 +188,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             }
 
             int messageSize = messages.size(); //messages is message
-            messages.add("[" + messageSize + "] " + sendMes.getUsername() + ": " + message);
+            messages.add("[" + messageSize + "] " + sendMes.getName() + ": " + message);
 
             String filename = getDMFiletxt(sendMes, getMes); //(sendMes,getMes.txt is what's written to
             outputDMs(filename, messages);
@@ -198,7 +205,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         try {
             int start = messages.get(index).indexOf("]") + 2;
             int end = messages.get(index).indexOf(":");
-            if (!messages.get(index).substring(start, end).equals(remove.getUsername())) {
+            if (!messages.get(index).substring(start, end).equals(remove.getName())) {
                 throw new InvalidTargetException("This is not your message!");
             }
 
@@ -241,9 +248,8 @@ public class SocialMediaDatabase implements SocialMediaInterface{
     public boolean addAccount(String accountStats) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(accountInfo, true));
-            bw.write(accountStats + "\n");
+            bw.write("\n" + accountStats);
             bw.close();
-
             Account newAccount = new Account(accountStats);
             accounts.add(newAccount);
 
@@ -256,9 +262,10 @@ public class SocialMediaDatabase implements SocialMediaInterface{
 
 
     //log into account which returns account if name and password matches in accounts
-    public Account login(String Username, String password) throws BadDataException {
+    public Account login(String name, String password) throws BadDataException {
         for (Account account : accounts) {
-            if (account.getUsername().equals(Username) && account.getPassword().equals(password)) {
+            if (account.getName().equals(name) && account.getPassword().equals(password)) {
+                System.err.println(account);
                 return account;
             }
         }
@@ -274,36 +281,20 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         throw new BadDataException("No account exists with that name");
     }
 
-
-    //Override (Ask Alex about push on Github)
-    @Override
-    public String getDMFileName(Account user, Account user2) {
-        return user + "AND" + user2 + "DMFILE";
-    }
-
-    public Account findUsername(String userName) throws BadDataException {
-        for (Account account : accounts) {
-            if (account.getUsername().equals(userName)) {
-                return account;
-            }
-        }
-        throw new BadDataException("No account exists with that name");
-    }
-
-
     //generate a consistent filename based on two account names
     public String getDMFiletxt(Account user, Account user2) {
-        ArrayList<String> names = new ArrayList<>(Arrays.asList(user.getUsername(), user2.getUsername()));
+        ArrayList<String> names = new ArrayList<>(Arrays.asList(user.getName(), user2.getName()));
         Collections.sort(names);
         return names.get(0) + "," + names.get(1) + ".txt";
     }
     //change account
     public void changeAccount(String accountName, Account change) {
         for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i).getUsername().equals(accountName)) {
+            if (accounts.get(i).getName().equals(accountName)) {
                 accounts.set(i, change);
                 return;
             }
         }
+        throw new IllegalArgumentException();
     }
 }
