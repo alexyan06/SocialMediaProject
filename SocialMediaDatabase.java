@@ -19,7 +19,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         readDMFileNames();
     }
     //transfer raw accountInfo string (name, username, password, boolean, <friends, <blocked)
-        //to Account type
+    //to Account type
     public boolean readAccountInfo() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(accountInfo));
@@ -274,6 +274,13 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         throw new BadDataException("No account exists with that name");
     }
 
+
+    //Override (Ask Alex about push on Github)
+    @Override
+    public String getDMFileName(Account user, Account user2) {
+        return user + "AND" + user2 + "DMFILE";
+    }
+
     public Account findUsername(String userName) throws BadDataException {
         for (Account account : accounts) {
             if (account.getUsername().equals(userName)) {
@@ -298,6 +305,5 @@ public class SocialMediaDatabase implements SocialMediaInterface{
                 return;
             }
         }
-        throw new IllegalArgumentException();
     }
 }
