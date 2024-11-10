@@ -41,7 +41,7 @@ public interface SocialMediaInterface {
     Account findAccount(String name) throws BadDataException;
 
     // Generate consistent filename for DMs based on two accounts
-    String getDMFileName(Account user, Account user2);
+    String getDMFiletxt(Account user, Account user2);
 
     // Change an existing account's information
     void changeAccount(String accountName, Account updatedAccount);
