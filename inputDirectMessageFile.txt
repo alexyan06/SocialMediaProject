@@ -1,2 +1,2 @@
-{Alice, {John
-{Amy, {Sugon
+Alex:John
+Peter:Griffin
