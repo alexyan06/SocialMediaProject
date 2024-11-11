@@ -41,3 +41,6 @@ phase 2 steps
 - learn about phase 2 and its technologies
 - Assign phase 2 roles
 - Start phase 2
+
+11/11 notes:
+- adding, removing, writing (have concurrency)
