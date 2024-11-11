@@ -43,4 +43,4 @@ phase 2 steps
 - Start phase 2
 
 11/11 notes:
-- adding, removing, writing (have concurrency)
+- adding, removing, setting, writing (have concurrency)
