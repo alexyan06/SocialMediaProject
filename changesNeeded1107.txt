@@ -44,3 +44,30 @@ phase 2 steps
 
 11/11 notes:
 - adding, removing, setting, writing (have concurrency)
+
+11/13 notes:
+- 1 person take care of test, other person take care of code
+    - netowrk
+    - connect server to client
+    - test
+- 1 person take care fo connecting servers and database connection and interaction with client
+- both working on networing and threads
+
+ - features
+  - just focus on implementing the core part *sending mesage to friends, receiving from friends)
+    - don't do anything extra
+    - no need for blocking, just send messages to friends
+
+  - user
+    - user may change passwords
+    - send and delete mesages fine
+    - block is not needed
+  - functionaity
+    - user profile 
+    - profile
+    - password login
+    - user search and user viewer (no need) no need for profile view
+    - restrict message to all or friends only 
+  - test case
+    - should be comprehensive, no need to check all cases
+    - functionalities
