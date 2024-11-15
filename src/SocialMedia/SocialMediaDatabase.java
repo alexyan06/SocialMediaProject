@@ -336,6 +336,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
     }
     //change account
     public void changeAccount(String accountName, Account change) {
+        lock.lock();
         try {
             for (int i = 0; i < accounts.size(); i++) {
                 if (accounts.get(i).getName().equals(accountName)) {
