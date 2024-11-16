@@ -71,3 +71,8 @@ Functionalities to not keep:
 Test case
 - should be comprehensive, but no need to check all cases
 - Just check for functionalities of the functions
+
+11/15 notes
+- finish all notes written within server
+- add interfaces to both clients and server
+- make test cases for clients and server (Sripoorna only)
