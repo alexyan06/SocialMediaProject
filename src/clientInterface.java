@@ -1,10 +1,10 @@
 /**
- * CS 180 Group Project: serverInterface
+ * CS 180 Group Project: clientInterface
  *
- * Defines serverInterface, which is the interface of Server.
+ * Defines clientInterface, which is the interface of Client.
  */
 
-public interface serverInterface {
+public interface clientInterface {
 
     /**
      * Fields:
@@ -17,6 +17,6 @@ public interface serverInterface {
      * none
      *
      * Methods:
-     * Server only contains a Main Method
+     * Client only contains a Main Method
      */
 }
