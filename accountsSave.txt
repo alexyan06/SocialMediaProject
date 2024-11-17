@@ -1,0 +1,6 @@
+Alex, password123, true<Peter, John<Sarah
+John, pass456, true<Alex<Sarah
+Sarah, mypass789, false<Peter<Sarah
+Peter, secret101, true<Sarah<Alex
+Linda, qwerty987, false<John<Sarah
+Alice, newPassword8,true<John, Sarah<Peter
