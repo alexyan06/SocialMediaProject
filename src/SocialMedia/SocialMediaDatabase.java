@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.concurrent.locks.ReentrantLock;
 
 //stores all accounts
-public class SocialMediaDatabase implements SocialMediaInterface{
+public class SocialMediaDatabase implements SocialMediaInterface {
     private ArrayList<Account> accounts; //lists of user accounts
     private String accountInfo; //String for ALL saved account info
     private ArrayList<String> DMs; //list filenames for all dms
@@ -20,6 +20,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
         readAccountInfo();
         readDMFileNames();
     }
+
     //transfer raw accountInfo string (name, password, boolean<friends<blocked)
     //to Account type
     public boolean readAccountInfo() {
@@ -97,6 +98,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock(); // RELEASE LOCK
         }
     }
+
     //read DMFileNames
     public ArrayList<String> readDMFileNames() {
         lock.lock();
@@ -115,6 +117,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //output DMFileNames to DMs
     public boolean outputDMFileNames() {
         lock.lock();
@@ -131,6 +134,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //read DMs by fileName, returning all messages in an ArrayList
     public ArrayList<String> readDMs(String filename) {
         lock.lock();
@@ -150,6 +154,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //output direct messages
     public boolean outputDMs(String filename, ArrayList<String> messages) {
         lock.lock();
@@ -167,6 +172,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //getters:
     public ArrayList<Account> getAccounts() {
         return accounts;
@@ -187,6 +193,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
+
     //add message from a sender to target
     public ArrayList<String> addDM(Account sendMes, Account getMes, ArrayList<String> messages, String message) throws InvalidTargetException {
         lock.lock();
@@ -223,6 +230,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //remove message at specific index if sent by remover
     public ArrayList<String> removeDM(ArrayList<String> messages, Account remove, Account other, int index) throws InvalidTargetException {
         lock.lock();
@@ -250,6 +258,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //create DM between sender and target
     public String createDM(Account sendMes, Account getMes) throws InvalidTargetException {
         lock.lock();
@@ -308,6 +317,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //find an account by name
     public Account findAccount(String name) throws BadDataException {
         lock.lock();
@@ -334,6 +344,7 @@ public class SocialMediaDatabase implements SocialMediaInterface{
             lock.unlock();
         }
     }
+
     //change account
     public void changeAccount(String accountName, Account change) {
         lock.lock();
@@ -345,7 +356,8 @@ public class SocialMediaDatabase implements SocialMediaInterface{
                 }
             }
             throw new IllegalArgumentException();
-    } finally {
-        lock.unlock();
+        } finally {
+            lock.unlock();
+        }
     }
 }
