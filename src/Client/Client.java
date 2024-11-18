@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * CS 180 Group Project -
- *
- * Defines Client, which is the Client side that connects to the server. This is
- * functionally what the users directly interact with.
+ * CS 180 Group Project: Server
+ * @author Alex Yan, yan517
+ * @author Sripoorna Modugula, smodugul
+ * @version 1.0 11/17/2024
+ * Server that connects to multiple clients and
+ * does the processing of data.
  */
 
 public class Client {
