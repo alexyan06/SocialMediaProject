@@ -9,12 +9,14 @@ AccountTestCase: The provided `AccountTestCase` class is a JUnit test suite desi
 
 SocialMediaDatabase: The `SocialMediaDatabase` class manages user accounts and direct messages (DMs) for a social media application. It provides functionality to create and manage accounts, log in users, send/receive direct messages, and store this data in text files. Key features include reading and writing account information, creating new DM conversations, validating friendships and blocklists when sending messages, and allowing users to remove their own messages from conversations. The database ensures proper handling of account and message data, with methods to update and retrieve account and DM details. This class is designed to simulate basic social media interactions with file-based data storage.
 
+
 SocialMediaInterface: The `SocialMediaInterface` defines the methods required for managing a social media database. It includes operations for reading and writing account and direct message (DM) data, handling user login, creating and removing DMs, and managing account information. The interface ensures that accounts can be added, retrieved, and modified, and that messages can be exchanged, added, or deleted between users based on their relationships (e.g., friends, blocked users). This interface lays the foundation for interacting with user data, making it essential for any implementation of a social media platform’s backend.
 
 SocialMediaTestCase: This repository contains a suite of unit tests for the `SocialMediaDatabase` class, implemented using JUnit 4.x, to ensure the proper functionality of various social media operations. The tests cover key features such as account management (creation, login, and modifications), direct message handling (adding/removing messages, creating message files, and reading/writing messages), and file persistence (handling account and direct message data). Each test method checks a specific functionality, verifying that the system correctly processes data, manages files, and interacts with users. The tests ensure the reliability and correctness of the social media database by validating the expected behavior of its components.
 
 
 TESTING THE CLIENT/SERVER
+
 Start the server first, then the client. Once connected, the client should output a message saying “Connected to server...” The client will ask if you want to create an account or log in. Create an account by entering 2. Enter a name for username and a password for password, and true for friends-only messages.  
 
 For log-in, enter 1. Then enter your username and then your password when asked. If successful, you will see a message saying, “Logged in!” You will then see a menu asking you what you want to do. If your username or password are incorrect, you will see a message saying, “Username or password is wrong.” It will prompt you to either log-in again or create an account. Once logged in, there is a menu that pops up with seven options.  
