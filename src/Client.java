@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * CS 180 Group Project: Client
- *
- * Defines Client, which is the Client side that connects to the server. This is
- * functionally what the users directly interact with.
+ * CS 180 Group Project: Server
+ * @author Alex Yan, yan517
+ * @author Sripoorna Modugula, smodugul
+ * @version 1.0 11/17/2024
+ * Server that connects to multiple clients and
+ * does the processing of data.
  */
 
 public class Client {
@@ -161,15 +163,16 @@ public class Client {
                         out.println();
                         out.flush();
 
-                        continue;
                     } else {
                         //to server. VALID
                         out.write(friendsOnly);
                         out.println();
                         out.flush();
 
-                        continue;
                     }
+                    String response = in.readLine();
+                    System.out.println(response);
+                    continue;
                 }
 
                 if (menu == 2) {
@@ -245,7 +248,7 @@ public class Client {
                             out.flush();
 
                             continue;
-                        } 
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid selection");
 
@@ -301,7 +304,7 @@ public class Client {
                         continue;
                     }
 
-                    if (dmMenu == 3) {  
+                    if (dmMenu == 3) {
                         System.out.println("Who are you sending a DM to?");
                         String dmSendTargetName = scan.nextLine();
 
