@@ -1,7 +1,10 @@
 /**
- * CS 180 Group Project - SMClientFinInterface
- * @yan517, @smodugul
- * Defines SMClientFinInterface, which is the interface of SMClientFin.
+ * CS 180 Group Project: Server
+ * @author Alex Yan, yan517
+ * @author Sripoorna Modugula, smodugul
+ * @version 1.0 11/17/2024
+ * Server that connects to multiple clients and
+ * does the processing of data.
  */
 
 public interface ServerInterface {
@@ -17,6 +20,6 @@ public interface ServerInterface {
      * none
      *
      * Methods:
-     * Client only contains a Main Method
+     * SMClientFin only contains a Main Method
      */
 }
