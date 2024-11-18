@@ -23,4 +23,6 @@ public interface AccountInterface {
     public boolean removeBlocked(Account blocked);
     public boolean equals(Account account);
     public String toString();
+    public ArrayList<String> getFriendsName();
+    public ArrayList<String> getBlockedName();
 }
