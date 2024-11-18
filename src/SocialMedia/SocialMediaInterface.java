@@ -2,6 +2,12 @@ import javax.management.modelmbean.InvalidTargetObjectTypeException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * CS 180 Group Project: Server
+ * Server that connects to multiple clients and
+ * does the processing of data.
+ */
+
 public interface SocialMediaInterface {
 
     // Read account information from file
@@ -23,10 +29,12 @@ public interface SocialMediaInterface {
     boolean outputDMs(String filename, ArrayList<String> messages);
 
     // Add a direct message from sender to target
-    ArrayList<String> addDM(Account sender, Account receiver, ArrayList<String> messages, String message) throws InvalidTargetException;
+    ArrayList<String> addDM(Account sender, Account receiver, 
+                            ArrayList<String> messages, String message) throws InvalidTargetException;
 
     // Remove a message at specified index if sent by the remover
-    ArrayList<String> removeDM(ArrayList<String> messages, Account remover, Account other, int index) throws InvalidTargetException;
+    ArrayList<String> removeDM(ArrayList<String> messages, 
+                               Account remover, Account other, int index) throws InvalidTargetException;
 
     // Create a new DM file between sender and target
     String createDM(Account sender, Account receiver) throws InvalidTargetException;
