@@ -33,12 +33,12 @@ Menu:
 
 6. Access DMs. You will see another menu.  
 
-Starting a DM. It will prompt you to enter the username of who you’re starting a DM with. If successful, it will write “Success!” in the client, and a new .txt file in the format of (User,Getter.txt) will be made with the first line being “[0] start DMs” Else, it will say failure 
+  1. Starting a DM. It will prompt you to enter the username of who you’re starting a DM with. If successful, it will write “Success!” in the client, and a new .txt file in the format of (User,Getter.txt) will be made with the first line being “[0] start DMs” Else, it will say failure 
 
-Reading a DM. It will prompt you to enter the username of who you want to read a DM with. If that DM txt file doesn't exist, it will say failure. If it exists, it will print out the current messages within that DM txt file. 
+  2. Reading a DM. It will prompt you to enter the username of who you want to read a DM with. If that DM txt file doesn't exist, it will say failure. If it exists, it will print out the current messages within that DM txt file. 
 
-Send a DM. It will prompt you to enter the username of who you want to enter a message to, if you can’t send them a DM, it will read failure, otherwise it will ask you to enter a message. After entering, it will be input into that txt file previously made through option 1. If you are blocked by someone, you will not be able to message them. 
+  3. Send a DM. It will prompt you to enter the username of who you want to enter a message to, if you can’t send them a DM, it will read failure, otherwise it will ask you to enter a message. After entering, it will be input into that txt file previously made through option 1. If you are blocked by someone, you will not be able to message them. 
 
-Delete DM. It will prompt you to enter the name of the user you want to delete the DM with. Next, it will prompt you to enter the index of the DM (starting from 1) that you want to delete. If successful, it will indicate that it was successful.  
+  4. Delete DM. It will prompt you to enter the name of the user you want to delete the DM with. Next, it will prompt you to enter the index of the DM (starting from 1) that you want to delete. If successful, it will indicate that it was successful.  
 
 7. End (bye) 
