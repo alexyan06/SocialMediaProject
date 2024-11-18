@@ -14,16 +14,15 @@ SocialMediaInterface: The `SocialMediaInterface` defines the methods required fo
 
 SocialMediaTestCase: This repository contains a suite of unit tests for the `SocialMediaDatabase` class, implemented using JUnit 4.x, to ensure the proper functionality of various social media operations. The tests cover key features such as account management (creation, login, and modifications), direct message handling (adding/removing messages, creating message files, and reading/writing messages), and file persistence (handling account and direct message data). Each test method checks a specific functionality, verifying that the system correctly processes data, manages files, and interacts with users. The tests ensure the reliability and correctness of the social media database by validating the expected behavior of its components.
 
+Server: This server application allows multiple clients to connect and interact with a social media platform. Clients can create accounts, add friends, manage blocked users, create and send direct messages (DMs), and read existing DMs. The server utilizes a thread pool to handle concurrent client connections efficiently. It also uses a SocialMediaDatabase class to manage user accounts and direct message data.
+
+Client: This code implements a client-side application for a social media platform. It establishes a connection to a server, allows users to log in or create accounts, and provides a menu of actions like adding/removing friends, managing blocked users, and interacting with direct messages. The client sends user input to the server and displays the server's responses, providing a basic user interface for the social media platform.
 
 TESTING THE CLIENT/SERVER
 
 Start the server first, then the client. Once connected, the client should output a message saying “Connected to server...” The client will ask if you want to create an account or log in. Create an account by entering 2. Enter a name for username and a password for password, and true for friends-only messages.  
 
 For log-in, enter 1. Then enter your username and then your password when asked. If successful, you will see a message saying, “Logged in!” You will then see a menu asking you what you want to do. If your username or password are incorrect, you will see a message saying, “Username or password is wrong.” It will prompt you to either log-in again or create an account. Once logged in, there is a menu that pops up with seven options.  
-
-Server: This server application allows multiple clients to connect and interact with a social media platform. Clients can create accounts, add friends, manage blocked users, create and send direct messages (DMs), and read existing DMs. The server utilizes a thread pool to handle concurrent client connections efficiently. It also uses a SocialMediaDatabase class to manage user accounts and direct message data.
-
-Client: This code implements a client-side application for a social media platform. It establishes a connection to a server, allows users to log in or create accounts, and provides a menu of actions like adding/removing friends, managing blocked users, and interacting with direct messages. The client sends user input to the server and displays the server's responses, providing a basic user interface for the social media platform.
 
 Menu: 
 
