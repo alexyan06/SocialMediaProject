@@ -19,6 +19,10 @@ Start the server first, then the client. Once connected, the client should outpu
 
 For log-in, enter 1. Then enter your username and then your password when asked. If successful, you will see a message saying, “Logged in!” You will then see a menu asking you what you want to do. If your username or password are incorrect, you will see a message saying, “Username or password is wrong.” It will prompt you to either log-in again or create an account. Once logged in, there is a menu that pops up with seven options.  
 
+Server: This server application allows multiple clients to connect and interact with a social media platform. Clients can create accounts, add friends, manage blocked users, create and send direct messages (DMs), and read existing DMs. The server utilizes a thread pool to handle concurrent client connections efficiently. It also uses a SocialMediaDatabase class to manage user accounts and direct message data.
+
+Client: This code implements a client-side application for a social media platform. It establishes a connection to a server, allows users to log in or create accounts, and provides a menu of actions like adding/removing friends, managing blocked users, and interacting with direct messages. The client sends user input to the server and displays the server's responses, providing a basic user interface for the social media platform.
+
 Menu: 
 
 1. Change friends only. It will ask “Friends Only for messages (true/false). Enter true if you only want your friends to see the messages or false if you don’t. Follow the format that is provided. It will show a message saying, “Friends Only changed.” 
@@ -41,4 +45,4 @@ Menu:
 
   4. Delete DM. It will prompt you to enter the name of the user you want to delete the DM with. Next, it will prompt you to enter the index of the DM (starting from 1) that you want to delete. If successful, it will indicate that it was successful.  
 
-7. End (bye) 
+7. End (bye)
