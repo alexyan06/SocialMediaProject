@@ -7,17 +7,20 @@ import java.util.concurrent.Executors;
 
 /**
  * CS 180 Group Project: Server
+ * @author Alex Yan, yan517
+ * @author Sripoorna Modugula, smodugul
+ * @version 1.0 11/17/2024
  * Server that connects to multiple clients and
  * does the processing of data.
  */
 
-public class Server implements ServerInterface{
+public class Server {
     private static final int PORT = 12346;
     private static ExecutorService pool = Executors.newFixedThreadPool(10);
 
     private static SocialMediaDatabase mediaDatabase;
 
-    private static final Object lock = new Object();
+    private static final Object LOCK = new Object();
 
     public static void main(String[] args) {
         mediaDatabase = new SocialMediaDatabase("accountsSave.txt",
@@ -33,6 +36,12 @@ public class Server implements ServerInterface{
             e.printStackTrace();
         }
     }
+
+    /**
+     * CS 180 Group Project: Server
+     * Server that connects to multiple clients and
+     * does the processing of data.
+     */
 
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
@@ -57,7 +66,7 @@ public class Server implements ServerInterface{
                         String[] logDataParts = logData.split(",");
 
                         try {
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 logIn = mediaDatabase.login(logDataParts[0], logDataParts[1]);
                             }
                             out.write("Logged in!");
@@ -79,7 +88,7 @@ public class Server implements ServerInterface{
 
 
                         try {
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 Account existant = mediaDatabase.findAccount(logDataParts[0]);
                             }
                             System.out.println("Username is taken.");
@@ -91,7 +100,7 @@ public class Server implements ServerInterface{
                         } catch (BadDataException e) { //IMPORTANT
                             String logInAccountData = logDataParts[0] + "," + logDataParts[1] + "," + logDataParts[2];
                             logIn = new Account(logInAccountData);
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 mediaDatabase.addAccount(logInAccountData);
                             }
                             out.write("Account created!");
@@ -117,7 +126,7 @@ public class Server implements ServerInterface{
                             out.flush();
                         } else if (friendsOnly.equals("true")) {
                             logIn.setFriendsOnly(true);
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 mediaDatabase.changeAccount(logIn.getName(), logIn);
                             }
                             out.write("Friends Only changed");
@@ -125,7 +134,7 @@ public class Server implements ServerInterface{
                             out.flush();
                         } else {
                             logIn.setFriendsOnly(false);
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 mediaDatabase.changeAccount(logIn.getName(), logIn);
                             }
                             out.write("Friends Only changed");
@@ -159,7 +168,7 @@ public class Server implements ServerInterface{
 
                         try {
                             Account addFriend;
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 addFriend = mediaDatabase.findAccount(newFriend);
                             }
                             boolean result = logIn.addFriend(addFriend);
@@ -170,7 +179,7 @@ public class Server implements ServerInterface{
                                 out.flush();
                                 continue;
                             }
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 mediaDatabase.changeAccount(logIn.getName(), logIn);
                             }
                             out.write("Success!");
@@ -206,7 +215,7 @@ public class Server implements ServerInterface{
                                     }
                                     logIn.removeFriend(friends.get(i));
                                     System.out.println("done");
-                                    synchronized (lock) {
+                                    synchronized (LOCK) {
                                         mediaDatabase.changeAccount(logIn.getName(), logIn);
                                     }
 
@@ -248,7 +257,7 @@ public class Server implements ServerInterface{
 
                         try {
                             Account addBlocked;
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 addBlocked = mediaDatabase.findAccount(newBlocked);
                             }
                             boolean result = logIn.addBlocked(addBlocked);
@@ -259,7 +268,7 @@ public class Server implements ServerInterface{
                                 out.flush();
                                 continue;
                             }
-                            synchronized (lock) {
+                            synchronized (LOCK) {
                                 mediaDatabase.changeAccount(logIn.getName(), logIn);
                             }
                             out.write("Success");
@@ -295,7 +304,7 @@ public class Server implements ServerInterface{
                                     }
                                     logIn.removeBlocked(blocked.get(i));
                                     System.out.println("done");
-                                    synchronized (lock) {
+                                    synchronized (LOCK) {
                                         mediaDatabase.changeAccount(logIn.getName(), logIn);
                                     }
 
@@ -325,12 +334,12 @@ public class Server implements ServerInterface{
 
                             try {
                                 Account dmStartTarget;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     dmStartTarget = mediaDatabase.findAccount(dmStartTargetName);
                                 }
 
                                 try {
-                                    synchronized (lock) {
+                                    synchronized (LOCK) {
                                         mediaDatabase.createDM(logIn, dmStartTarget);
                                         System.out.println("DM has been created!");
                                         mediaDatabase.outputDMFileNames();              //updates save file
@@ -341,7 +350,8 @@ public class Server implements ServerInterface{
 
                                     continue;
                                 } catch (InvalidTargetException e) {
-                                    System.out.println("You cannot send to this person OR a DM with them already exists.");
+                                    System.out.println("You cannot send to this person " +
+                                            "OR a DM with them already exists.");
 
                                     out.write("Failure: invalid target");
                                     out.println();
@@ -365,7 +375,7 @@ public class Server implements ServerInterface{
                             String dmReadTargetName = in.readLine();
 
                             try {
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     Account dmReadTarget = mediaDatabase.findAccount(dmReadTargetName);
                                 }
 
@@ -387,7 +397,7 @@ public class Server implements ServerInterface{
                                     out.flush();
                                 } else {
                                     ArrayList<String> messages;
-                                    synchronized (lock) {
+                                    synchronized (LOCK) {
                                         messages = mediaDatabase.readDMs(fileName);
                                         out.write("Success!");
                                         out.println();
@@ -423,7 +433,7 @@ public class Server implements ServerInterface{
 
                             try {
                                 Account dmSendTarget;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     dmSendTarget = mediaDatabase.findAccount(dmSendTargetName);
                                 }
 
@@ -434,7 +444,7 @@ public class Server implements ServerInterface{
                                 String fileName = namesForFileName.get(0) + "," + namesForFileName.get(1) + ".txt";
 
                                 ArrayList<String> messages;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     messages = mediaDatabase.readDMs(fileName);
                                 }
 
@@ -447,7 +457,7 @@ public class Server implements ServerInterface{
 
                                 ArrayList<String> newMessages;
                                 try {
-                                    synchronized (lock) {
+                                    synchronized (LOCK) {
                                         newMessages = mediaDatabase.addDM(logIn, dmSendTarget, messages, message);
                                     }
                                 } catch (InvalidTargetException e) {
@@ -461,7 +471,7 @@ public class Server implements ServerInterface{
                                 }
 
                                 boolean result;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     result = mediaDatabase.outputDMs(fileName, newMessages);
                                 }
                                 if (!result) {
@@ -491,7 +501,7 @@ public class Server implements ServerInterface{
 
                             try {
                                 Account dmRemoveTarget;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     dmRemoveTarget = mediaDatabase.findAccount(dmRemoveTargetName);
                                 }
 
@@ -502,7 +512,7 @@ public class Server implements ServerInterface{
                                 String fileName = namesForFileName.get(0) + "," + namesForFileName.get(1) + ".txt";
 
                                 ArrayList<String> messages;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     messages = mediaDatabase.readDMs(fileName);
                                 }
 
@@ -524,7 +534,7 @@ public class Server implements ServerInterface{
 
                                 ArrayList<String> newMessages;
                                 try {
-                                    synchronized (lock) {
+                                    synchronized (LOCK) {
                                         newMessages = mediaDatabase.removeDM(messages, logIn, dmRemoveTarget, index);
                                     }
                                 } catch (InvalidTargetException e) {
@@ -536,7 +546,7 @@ public class Server implements ServerInterface{
                                 }
 
                                 boolean result;
-                                synchronized (lock) {
+                                synchronized (LOCK) {
                                     result = mediaDatabase.outputDMs(fileName, newMessages);
                                 }
                                 if (!result) {
@@ -569,7 +579,7 @@ public class Server implements ServerInterface{
 
                     if (menuIn.equals("7")) {
                         System.out.println("Bye");
-                        synchronized (lock) {
+                        synchronized (LOCK) {
                             mediaDatabase.outputAccountInfo();
                             mediaDatabase.outputDMFileNames();
                         }
