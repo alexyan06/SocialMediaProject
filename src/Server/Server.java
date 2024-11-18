@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  * does the processing of data.
  */
 
-public class Server implements serverInterface{
+public class Server implements ServerInterface{
     private static final int PORT = 12346;
     private static ExecutorService pool = Executors.newFixedThreadPool(10);
 
