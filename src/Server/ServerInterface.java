@@ -4,7 +4,7 @@
  * Defines SMClientFinInterface, which is the interface of SMClientFin.
  */
 
-public interface serverInterface {
+public interface ServerInterface {
 
     /**
      * Fields:
@@ -17,6 +17,6 @@ public interface serverInterface {
      * none
      *
      * Methods:
-     * SMClientFin only contains a Main Method
+     * Client only contains a Main Method
      */
 }
