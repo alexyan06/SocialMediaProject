@@ -1,6 +1,6 @@
 /**
  * CS 180 Group Project - SMClientFinInterface
- *
+ * @yan517, @smodugul
  * Defines SMClientFinInterface, which is the interface of SMClientFin.
  */
 
