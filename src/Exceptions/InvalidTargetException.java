@@ -7,8 +7,8 @@
  * does the processing of data.
  */
 
-public class BadDataException extends Exception {
-    public BadDataException(String message) {
+public class InvalidTargetException extends Exception {
+    public InvalidTargetException(String message) {
         super(message);
     }
 }
