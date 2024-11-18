@@ -14,6 +14,12 @@ import static org.junit.Assert.*;
  */
 @RunWith(Enclosed.class)
 public class AccountTestCase {
+    /**
+     * CS 180 Group Project: Server
+     * @author yan517, smodugul 
+     * Server that connects to multiple clients and
+     * does the processing of data.
+     */
     public static class TestCase {
         private final PrintStream originalOutput = System.out;
         private final InputStream originalSysin = System.in;
