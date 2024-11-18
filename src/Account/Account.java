@@ -71,27 +71,6 @@ public class Account implements AccountInterface {
         return friends;
     }
 
-    public ArrayList<String> getFriendsName() {
-        ArrayList<String> test = new ArrayList<>();
-        if (!friends.isEmpty()) {
-            for (int i = 0; i < friends.size(); i++) {
-                test.add(friends.get(i).getName());
-            }
-        }
-        return test;
-    }
-
-    public ArrayList<String> getBlockedName() {
-        ArrayList<String> test = new ArrayList<>();
-        if (!blocked.isEmpty()) {
-            for (int i = 0; i < blocked.size(); i++) {
-                test.add(blocked.get(i).getName());
-            }
-        }
-        return test;
-    }
-
-
     public boolean addFriend(Account friend) {
         if (friends.contains(friend)) {
             return true;
@@ -163,3 +142,4 @@ public class Account implements AccountInterface {
         return sb.toString();
     }
 }
+
