@@ -9,12 +9,12 @@ public class SocialMediaDatabase extends Thread implements SocialMediaInterface{
     private ArrayList<Account> accounts; //lists of user accounts
     private String accountInfo; //String for ALL saved account info
     private ArrayList<String> DMs; //list filenames for all dms
-    private String DMFileName;//String for ALL dm filenames
+    private String dMFileName;//String for ALL dm filenames
     private final static Object gateKeeper = new Object();
 
-    public SocialMediaDatabase(String accountInfo, String DMFileName) {
+    public SocialMediaDatabase(String accountInfo, String dMFileName) {
         this.accountInfo = accountInfo;
-        this.DMFileName = DMFileName;
+        this.dMFileName = dMFileName;
         this.accounts = new ArrayList<>();
         this.DMs = new ArrayList<>();
         readAccountInfo();
@@ -94,11 +94,11 @@ public class SocialMediaDatabase extends Thread implements SocialMediaInterface{
             }
         }
     }
-    //read DMFileNames
+    //read dMFileNames
     public ArrayList<String> readDMFileNames() {
         synchronized (gateKeeper) {
             try {
-                BufferedReader rd = new BufferedReader(new FileReader(DMFileName));
+                BufferedReader rd = new BufferedReader(new FileReader(dMFileName));
                 String line;
                 while ((line = rd.readLine()) != null) {
                     DMs.add(line);
@@ -106,16 +106,16 @@ public class SocialMediaDatabase extends Thread implements SocialMediaInterface{
                 rd.close();
                 return DMs;
             } catch (IOException e) {
-                System.out.println("Error reading DMFileNames: " + e.getMessage());
+                System.out.println("Error reading dMFileNames: " + e.getMessage());
                 return new ArrayList<>();
             }
         }
     }
-    //output DMFileNames to DMs
+    //output dMFileNames to DMs
     public boolean outputDMFileNames() {
         synchronized (gateKeeper) {
             try {
-                BufferedWriter fw = new BufferedWriter(new FileWriter(DMFileName));
+                BufferedWriter fw = new BufferedWriter(new FileWriter(dMFileName));
                 for (String file : DMs) {
                     fw.write(file + "\n");
                 }
@@ -174,14 +174,16 @@ public class SocialMediaDatabase extends Thread implements SocialMediaInterface{
     }
 
     public String getDMFileName() {
-        return DMFileName;
+        return dMFileName;
     }
 
     public void setAccounts(ArrayList<Account> accounts) {
         this.accounts = accounts;
     }
     //add message from a sender to target
-    public ArrayList<String> addDM(Account sendMes, Account getMes, ArrayList<String> messages, String message) throws InvalidTargetException {
+    public ArrayList<String> addDM(Account sendMes, Account getMes, 
+                                   ArrayList<String> messages, String message) 
+            throws InvalidTargetException {
         synchronized (gateKeeper) {
             try {
 
@@ -215,7 +217,9 @@ public class SocialMediaDatabase extends Thread implements SocialMediaInterface{
         }
     }
     //remove message at specific index if sent by remover
-    public ArrayList<String> removeDM(ArrayList<String> messages, Account remove, Account other, int index) throws InvalidTargetException {
+    public ArrayList<String> removeDM(ArrayList<String> messages, 
+                                      Account remove, Account other, int index) 
+            throws InvalidTargetException {
         synchronized (gateKeeper) {
             try {
                 int start = messages.get(index).indexOf("]") + 2;
